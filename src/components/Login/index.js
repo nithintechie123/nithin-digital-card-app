@@ -1,23 +1,19 @@
 import {Component} from 'react'
 
-import Cookies from 'js-cookie'
+import {Redirect} from 'react-router-dom'
+
+import Cookie from 'js-cookie'
 
 import './index.css'
 
 class Login extends Component {
   state = {userId: '', pin: '', errorMsg: ''}
 
-  onChangeUserInput = event => {
-    this.setState({userId: event.target.value})
-  }
-
-  onChangePasswordInput = event => {
-    this.setState({pin: event.target.value})
-  }
-
   onSubmitSuccess = jwtToken => {
-    Cookies.set('jwt_token', jwtToken, {expires: 30})
     const {history} = this.props
+
+    Cookie.set('jwt_token', jwtToken, {expires: 30})
+
     history.replace('/')
   }
 
@@ -47,8 +43,22 @@ class Login extends Component {
     }
   }
 
+  onChangeUserInput = event => {
+    this.setState({userId: event.target.value})
+  }
+
+  onChangePasswordInput = event => {
+    this.setState({pin: event.target.value})
+  }
+
   render() {
     const {errorMsg, userId, pin} = this.state
+
+    const jwtToken = Cookie.get('jwt_token')
+
+    if (jwtToken !== undefined) {
+      return <Redirect to="/" />
+    }
 
     return (
       <div className="login-container">
@@ -71,7 +81,7 @@ class Login extends Component {
                 USER ID
               </label>
               <input
-                type="input"
+                type="text"
                 id="user-input"
                 placeholder="Enter User ID"
                 className="input-element"
@@ -84,7 +94,7 @@ class Login extends Component {
                 PIN
               </label>
               <input
-                type="input"
+                type="password"
                 id="pin"
                 placeholder="Enter PIN"
                 className="input-element"

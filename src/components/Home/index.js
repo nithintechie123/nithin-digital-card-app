@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie'
+import Cookie from 'js-cookie'
 
 import './index.css'
 
@@ -6,8 +6,9 @@ const Home = props => {
   const onClickLogoutBtn = () => {
     const {history} = props
 
-    Cookies.remove('jwt_token')
-    history.replace('/login')
+    Cookie.remove('jwt_token')
+
+    history.replace('/ebank/login')
   }
 
   return (

@@ -1,12 +1,12 @@
 import {Redirect, Route} from 'react-router-dom'
 
-import Cookies from 'js-cookie'
+import Cookie from 'js-cookie'
 
 const ProtectedRoute = props => {
-  const jwtToken = Cookies.get('jwt_token')
+  const jwtToken = Cookie.get('jwt_token')
   console.log(jwtToken)
   if (jwtToken === undefined) {
-    return <Redirect to="/login" />
+    return <Redirect to="/ebank/login" />
   }
   return <Route {...props} />
 }
